@@ -17,6 +17,7 @@
       font-weight: bold;
       color: white;
       text-shadow: 2px 2px 5px black;
+      position: relative;
     }
 
     #message {
@@ -24,19 +25,20 @@
       position: absolute;
     }
 
-    .animal {
+    .confetti {
       position: absolute;
-      width: 80px;
-      height: 80px;
-      animation: dance 1s infinite alternate ease-in-out;
+      width: 10px;
+      height: 10px;
+      background-color: #ff5733;
+      animation: fall 2s infinite linear;
     }
 
-    @keyframes dance {
+    @keyframes fall {
       0% {
-        transform: translateY(0px);
+        transform: translateY(-100px) rotate(0deg);
       }
       100% {
-        transform: translateY(-20px);
+        transform: translateY(100vh) rotate(360deg);
       }
     }
   </style>
@@ -53,23 +55,23 @@
       document.body.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
     }, 500);
 
-    // Animales en estilo pixel art
-    const animals = [
-      'https://www.piskelapp.com/assets/img/piskel.png', // Pixel art perro
-      'https://www.piskelapp.com/assets/img/piskel.png', // Pixel art gato
-      'https://www.piskelapp.com/assets/img/piskel.png', // Pixel art zorrito
-      'https://www.piskelapp.com/assets/img/piskel.png', // Pixel art panda
-      'https://www.piskelapp.com/assets/img/piskel.png'  // Pixel art rana
-    ];
+    // Función para generar confeti
+    function createConfetti() {
+      const confettiColors = ['#ff5733', '#33ff57', '#3357ff', '#ff33a6', '#fffd33'];
+      const confetti = document.createElement('div');
+      confetti.classList.add('confetti');
+      confetti.style.left = Math.random() * window.innerWidth + 'px'; // Posición aleatoria horizontal
+      confetti.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      document.body.appendChild(confetti);
 
-    for (let i = 0; i < 20; i++) {
-      const img = document.createElement('img');
-      img.src = animals[Math.floor(Math.random() * animals.length)];
-      img.className = 'animal';
-      img.style.left = Math.random() * window.innerWidth + 'px';
-      img.style.top = Math.random() * window.innerHeight + 'px';
-      document.body.appendChild(img);
+      // Elimina el confeti después de que se haya desplazado fuera de la pantalla
+      setTimeout(() => {
+        confetti.remove();
+      }, 2000); // El confeti desaparece después de 2 segundos
     }
+
+    // Crear confeti cada 100ms
+    setInterval(createConfetti, 100);
   </script>
 </body>
 </html>
